@@ -18,12 +18,6 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 # Cache: Load data
 df = load_data()
 
-# Cache: Split and preprocess data
-X_train, X_test, y_train, y_test = prepare_data(df)
-
-# Cache: Fit model
-xgb_model = cached_xgb_model(X_train, y_train)
-
 # --------------------------------------------------------------
 
 # Define app layout
