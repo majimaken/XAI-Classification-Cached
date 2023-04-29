@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from ydata_profiling import ProfileReport
+
 from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve, auc
@@ -13,6 +15,8 @@ import xgboost as xgb
 from xgboost import XGBClassifier, plot_importance
 
 from sklearn.preprocessing import LabelEncoder
+
+import shap
 
 # Preparing Cached Model
 
@@ -56,6 +60,12 @@ def convert_categorical_to_numerical(df):
         label_encoders[col] = le
     
     return df, label_encoders
+   
+   
+# Cache: Report
+@st.cache_resource
+def generate_profile_report(df):
+    return ProfileReport(df, explorative=True, minimal=True)
 
 # Cache: Prepare and splitting data
 @st.cache_data
@@ -98,3 +108,13 @@ def predict_with_cached_model(_xgb_model, X_test):
     return y_pred
     
 # y_pred = predict_with_cached_model(xgb_model, X_test)
+
+
+# Cache: Shap Values
+
+@st.cache_resource()
+def get_shap_summary_plot(_explainer, _X_train):
+    shap_values = _explainer.shap_values(_X_train)
+    fig, ax = plt.subplots()
+    shap.summary_plot(shap_values, _X_train, show=False)
+    return fig

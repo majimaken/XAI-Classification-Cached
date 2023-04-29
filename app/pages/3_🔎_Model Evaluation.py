@@ -47,29 +47,75 @@ st.title('Model Evaluation')
 
 
 
+# Show chosen Hyperparameters
+st.header("Hyperparameters")
+st.markdown("""
+Defining values for hyperparameters is important as it defines how the model will 
+learn from the data. Our hyperparameters are evaluated using stratified k-fold cross-validation
+t involves splitting the dataset into k subsets, where each subset contains roughly the same 
+proportion of target classes as the whole dataset, and training the model on k-1 subsets while 
+using the remaining subset for testing.
+
+Another important hyperparamter is scale_pos_weight, as it helps the model to learn the patterns
+of the minority class better and improve its ability to handle imbalanced data sets.
+
+Finally, we proceed by using the following values for training the XGBoost classification model:
+""")
+
+hyperparameters = {'scale_pos_weight': [6.5], 
+                   'eval_metric': ["auc"],
+                   'learning_rate': [0.3],
+                   'max_depth': [5],
+                   'n_estimators': [40]}
+
+hyperparameters_df = pd.DataFrame.from_dict(hyperparameters)
+st.table(hyperparameters_df)
+
+
+
+
+
+
 # Display Confusion Matrix
-st.subheader("Confusion Matrix")
+st.header("Confusion Matrix")
 st.markdown("""
 A confusion matrix is a table that visualizes the performance of a machine learning
 model by comparing the predicted and actual values of a classification problem.
-It contains information about the number of true positives, true negatives,
-false positives, and false negatives, which are used to calculate various 
-evaluation metrics such as accuracy, precision, recall, and F1 score.
+It contains information about the performance of a classification model using:
+
+- True positives (correctly classified as 1)
+- True negatives (correctly classified as 0)
+- False positives (mistakenly classified as 1)
+- False negatives (mistakenly classified as 0)
+
+The matrix provides the actual number of of true positives, false positives, true negatives, and false negatives - which 
+are often used to calculate further metrics such as precision, recall and F1-score. 
 """)
 cm = confusion_matrix(y_test, y_pred)
 cmd = ConfusionMatrixDisplay(cm).plot(values_format = "", cmap = "YlGnBu")
 plt.title("Confusion Matrix")
 plt.text(-0.4, 0.2, "correctly classified as 0", fontsize = 9, color = "w")
-plt.text(-0.4, 1.2, "mistakenly classified as 0", fontsize = 9) #, color = "b")
-plt.text(0.6, 0.2, "mistakenly classified as 1", fontsize = 9) #, color = "b")
+plt.text(-0.43, 1.2, "mistakenly classified as 0", fontsize = 9) #, color = "b")
+plt.text(0.56, 0.2, "mistakenly classified as 1", fontsize = 9) #, color = "b")
 plt.text(0.6, 1.2, "correctly classified as 1", fontsize = 9) #, color = "b")
 plt.grid(False)
 plt.show()
 st.pyplot()
+plt.rcdefaults()
 
 
 # Display the SHAP values for the example
-st.subheader('ROC Curve')
+st.header('ROC (Receiver Operating Characteristic) Curve')
+st.markdown("""
+The ROC curve is created by plotting the true positive rate (y-axis) against the false positive rate (x-axis).
+The TPR is the ratio of true positives to the total number of actual positive cases, and the FPR is the ratio 
+of false positives to the total number of actual negative cases.
+
+The area under the ROC curve (AUC) is a commonly used metric to evaluate the overall performance of a binary 
+classification model. AUC ranges from 0 to 1, where a model with an AUC of 1 is considered perfect, while a model 
+with an AUC of 0.5 performs no better than random guessing.
+Our AUC of 0.93 indicates that the XGBoost model performs well distinguishing between positive and negative classes.
+""")
 
 # Predict the probabilities of the positive class
 y_pred_proba = xgb_model.predict_proba(X_test)[:, 1]
@@ -89,20 +135,11 @@ plt.title('ROC Curve')
 plt.legend()
 plt.show()
 st.pyplot()
+plt.rcdefaults()
 
 
 
 
-# Show chosen Hyperparameters
-st.subheader("Hyperparameters")
-
-st.markdown('''
-scale_pos_weight = 6.5, 
-eval_metric = "auc",
-learning_rate = 0.3,
-max_depth = 5,
-n_estimators = 40
-''')
 
 
 
