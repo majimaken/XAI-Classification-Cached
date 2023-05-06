@@ -25,7 +25,7 @@ X_train, X_test, y_train, y_test = prepare_data(df)
 
 # Define app layout
 # st.set_page_config(page_title='Exploratory Analysis', page_icon='🏔️')
-st.title('Exploratory Analysis of Bank Marketing Dataset')
+st.title('Exploratory Analysis of a Portugese Bank Marketing Dataset')
 
 st.markdown("""
 The Bank Marketing Data Set from UCI is a collection of information that helps us understand 
