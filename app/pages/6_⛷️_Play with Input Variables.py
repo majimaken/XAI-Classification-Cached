@@ -52,21 +52,21 @@ age = st.sidebar.slider("Age", int(18),
                                 int(100), 
                                 int(18), key="1")
 job = st.sidebar.selectbox("Job", list(set(df["job"])), key="2")
-marital = st.sidebar.selectbox("Marital", list(set(df["marital"])), key="3")
+marital = st.sidebar.selectbox("Marital status", list(set(df["marital"])), key="3")
 education = st.sidebar.selectbox("Education", list(set(df["education"])), key="4")
-default = st.sidebar.selectbox("Default", list(set(df["default"])), key="5")
-balance = st.sidebar.slider("Balance", int(-10000), 
+default = st.sidebar.selectbox("Has credit in default (Verzug)", list(set(df["default"])), key="5")
+balance = st.sidebar.slider("Balance of bank account", int(-10000), 
                                 int(100000), 
                                 int(0), key="6")
-housing = st.sidebar.selectbox("housing", list(set(df["housing"])), key="7")
-loan = st.sidebar.selectbox("loan", list(set(df["loan"])), key="8")
-contact = st.sidebar.selectbox("Contact", list(set(df["contact"])), key="9")
-day = st.sidebar.selectbox("Day", list(set(df["day"])), key="10")
-month = st.sidebar.selectbox("Month", list(set(df["month"])), key="11")
-duration = st.sidebar.slider("Duration", int(df["duration"].min()), 
+housing = st.sidebar.selectbox("Has housing mortgage", list(set(df["housing"])), key="7")
+loan = st.sidebar.selectbox("Has personal loan", list(set(df["loan"])), key="8")
+contact = st.sidebar.selectbox("Contact communication type", list(set(df["contact"])), key="9")
+day = st.sidebar.selectbox("Weekday of last contact", list(set(df["day"])), key="10")
+month = st.sidebar.selectbox("Month of last contact", list(set(df["month"])), key="11")
+duration = st.sidebar.slider("Duration of last contact in seconds", int(df["duration"].min()), 
                                 int(5000), 
                                 int(0), key="12")
-campaign = st.sidebar.slider("Campaign", int(df["campaign"].min()), 
+campaign = st.sidebar.slider("Number of contacts during this campaign", int(df["campaign"].min()), 
                                 int(70), 
                                 int(0), key = "13")           
 pdays = st.sidebar.slider("Days since client was last contacted", int(df["pdays"].min()), 
@@ -132,11 +132,25 @@ prediction = xgb_model.predict(new_df_encoded)
 probability = xgb_model.predict_proba(new_df_encoded)
 
 # # # Display prediction and probability
-st.subheader('Prediction')
-st.write('NOT interested in Term Deposit' if prediction == 0 else 'Interested in Term Deposit')
-st.subheader('Probabilities')
-st.write("Probabilities for not being interested (0) and being interested (1)")
-st.write(probability)
+st.header('Interested in term deposit?')
+
+if prediction == 0:
+    st.write('<span style="color: red;">NOT</span> interested in term deposit with a probability of ', 
+         "{:.2%}".format(probability[0][0]),
+         '! 😞',
+         unsafe_allow_html=True)
+
+
+
+else:
+    #st.write('Interested in term deposit with a probability of: {:.2f}'.format(probability[0][1]))
+    st.write('<span style="color: green;">INTERESTED</span> in term deposit with a probability of ', 
+         "{:.2%}".format(probability[0][1]), 
+         '! 😄',
+         unsafe_allow_html=True)
+
+prob_df = pd.DataFrame({'Probability': probability[0]}, index=['NOT interested', 'Interested'])
+st.dataframe(prob_df.style.format({'Probability': '{:.2%}'}))
 
 
 

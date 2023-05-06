@@ -57,8 +57,10 @@ How to read the plot:
 '''
 )
 
+options = ["age", "balance", "day", "duration", "campaign", "pdays", "previous"]
+
 # Dropdown menu
-selected_feature = st.selectbox('Select a feature to visualize:', X_train.columns)
+selected_feature = st.selectbox('Select numerical feature to visualize:', options) # X_train.columns)
 
 # Calculate partial dependence values for the selected feature
 feature_index = X_train.columns.get_loc(selected_feature)

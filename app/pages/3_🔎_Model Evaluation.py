@@ -52,7 +52,7 @@ st.header("Hyperparameters")
 st.markdown("""
 Defining values for hyperparameters is important as it defines how the model will 
 learn from the data. Our hyperparameters are evaluated using stratified k-fold cross-validation
-t involves splitting the dataset into k subsets, where each subset contains roughly the same 
+involves splitting the dataset into k subsets, where each subset contains roughly the same 
 proportion of target classes as the whole dataset, and training the model on k-1 subsets while 
 using the remaining subset for testing.
 
