@@ -55,6 +55,8 @@ Data souce: https://archive.ics.uci.edu/ml/datasets/bank+marketing
 Source code: https://github.com/majimaken/XAI-Classification-Cached
 """)
 
+st.cache_resource.clear()
+
 
 
 
