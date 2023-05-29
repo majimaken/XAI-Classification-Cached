@@ -21,7 +21,7 @@ import shap
 # Preparing Cached Model
 
 # Load Data
-@st.cache_data
+@st.cache_data(max_entries = 2)
 def load_data(url = "https://raw.githubusercontent.com/majimaken/XAI-Classification/main/bank-full.csv"):
     df = pd.read_csv(url, sep = ";")
     return df
@@ -63,12 +63,12 @@ def convert_categorical_to_numerical(df):
    
    
 # Cache: Report
-@st.cache_resource
+@st.cache_resource(max_entries = 2)
 def generate_profile_report(df):
     return ProfileReport(df, explorative=True, minimal=True)
 
 # Cache: Prepare and splitting data
-@st.cache_data
+@st.cache_data(max_entries = 2)
 def prepare_data(df):
    
     # Preprocess the dataset
@@ -85,7 +85,7 @@ def prepare_data(df):
 # X_train, X_test, y_train, y_test = prepare_data(df)
 
 # Cache Model
-@st.cache_resource
+@st.cache_resource(max_entries = 2)
 def cached_xgb_model(X_train, y_train):
     xgb_model = XGBClassifier(scale_pos_weight = 6.5, 
                     eval_metric = "auc",
@@ -101,7 +101,7 @@ def cached_xgb_model(X_train, y_train):
 
 
 # Cache Predictions
-@st.cache_resource
+@st.cache_resource(max_entries = 2)
 def predict_with_cached_model(_xgb_model, X_test):
     # Generate predicted values with xgb_model.predict
     y_pred = _xgb_model.predict(X_test)
@@ -112,7 +112,7 @@ def predict_with_cached_model(_xgb_model, X_test):
 
 # Cache: Shap Values
 
-@st.cache_resource()
+@st.cache_resource(max_entries = 2)
 def get_shap_summary_plot(_explainer, _X_train):
     shap_values = _explainer.shap_values(_X_train)
     fig, ax = plt.subplots()
