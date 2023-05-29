@@ -54,6 +54,8 @@ How to read the plot:
 - x-axis shows the range of a feature.
 - If the line is flat, it indicates that the feature has little to no effect on the predicted outcome.
 - A steep slope indicates a strong effect. 
+
+Please consider that the partial dependence plot only makes sense where it has enough data. This can be recognized in the gray histogram. 
 '''
 )
 
