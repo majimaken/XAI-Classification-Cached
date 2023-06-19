@@ -55,23 +55,23 @@ the last binary columns is whether the marketing campaign was successful or not.
 2.  job:           type of job 
     - categorical: ('admin.','blue-collar','entrepreneur','housemaid','management','retired','self-employed','services','student','technician','unemployed','unknown')
 3.  marital:        marital status 
-    - categorical: ('divorced','married','single','unknown'; note: 'divorced' means divorced or widowed)
+    - categorical: ('divorced','married','single'; note: 'divorced' means divorced or widowed)
 4.  education:
-    - categorical: ('basic.4y','basic.6y','basic.9y','high.school','illiterate','professional.course','university.degree','unknown')
+    - categorical: ('primary', 'secondary', 'tertiary', 'unknown')
 5.  default: has credit in default? 
-    - categorical: ('no','yes','unknown')
+    - categorical: ('no','yes')
 6.  balance: net asset value of person
     - numeric
 7.  housing:        has housing loan? 
-    - categorical: ('no','yes','unknown')
+    - categorical: ('no','yes')
 8.  loan: has personal loan? 
-    - categorical: ('no','yes','unknown')
+    - categorical: ('no','yes')
 9.  contact: contact communication type 
-    - categorical: ('cellular','telephone')
+    - categorical: ('cellular','telephone', 'unknown')
 10.  month: last contact month of year 
     - categorical: ('jan', 'feb', 'mar', ..., 'nov', 'dec')
-11. day_of_week: last contact day of the week 
-    - categorical: ('mon','tue','wed','thu','fri')
+11. day: last contact day of the week 
+    - numeric: (1, 2, ..., 31)
 12. duration: last contact duration, in seconds 
     - numeric 
 13. campaign: number of contacts performed during this campaign and for this client 
@@ -81,7 +81,7 @@ the last binary columns is whether the marketing campaign was successful or not.
 15. previous: number of contacts performed before this campaign and for this client 
     - numeric
 16. poutcome: outcome of the previous marketing campaign 
-    - categorical: ('failure','nonexistent','success')
+    - categorical: ('failure','unknown', 'other' ,'success')
 17. y (output variable): has the client subscribed a term deposit? 
     - binary: ('yes','no')
 """)
